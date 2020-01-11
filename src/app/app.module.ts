@@ -19,6 +19,14 @@ import {
 } from '@angular/material';
 import {DateComponent} from './date/date.component';
 import { ArtistFormComponent } from './artist-form/artist-form.component';
+import {MatQuillModule} from '@webacad/ng-mat-quill';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
+import {JwtModule} from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   declarations: [
@@ -27,6 +35,8 @@ import { ArtistFormComponent } from './artist-form/artist-form.component';
     SongListComponent,
     SongFormComponent,
     ArtistFormComponent,
+    LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +55,13 @@ import { ArtistFormComponent } from './artist-form/artist-form.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
+    MatQuillModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        whitelistedDomains: ['localhost:4200']
+      }
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

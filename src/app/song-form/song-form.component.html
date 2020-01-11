@@ -1,0 +1,48 @@
+<form [formGroup]="songFormGroup" class="song-form">
+  <mat-form-field>
+    <input matInput type="text" placeholder="Title" formControlName="title">
+    <mat-hint align="end">The title of the song</mat-hint>
+    <mat-error *ngIf="songFormGroup.controls.title.hasError('required')">Title is required</mat-error>
+    <mat-error *ngIf="songFormGroup.controls.title.hasError('badWord')">Title contains "bad word"</mat-error>
+  </mat-form-field>
+  <br/>
+  <mat-form-field>
+    <mat-select placeholder="Genre" formControlName="genre">
+      <mat-option [value]="null">Unknown</mat-option>
+      <mat-option value="r">Rock</mat-option>
+      <mat-option value="j">Jazz</mat-option>
+      <mat-option value="t">Techno</mat-option>
+      <mat-option value="k">Claccic</mat-option>
+    </mat-select>
+    <mat-hint align="end">The genre of the song</mat-hint>
+  </mat-form-field>
+  <!--<app-date placeholder="Release date" formControlName="release_date" hint="The release date of the song"
+            [required]="true"></app-date>-->
+  <br/>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Duration (00:00:00)" formControlName="duration">
+    <mat-hint align="end">The duration of the song</mat-hint>
+    <mat-error *ngIf="songFormGroup.controls.duration.hasError('pattern')">Duration format must be: 00:00:00</mat-error>
+  </mat-form-field>
+  <br/>
+  <mat-form-field>
+    <mat-select placeholder="Artist" formControlName="artist" multiple>
+      <mat-option [value]="null">Unknown</mat-option>
+      <mat-option [value]="artistOption.id"
+                  *ngFor="let artistOption of artistOptions">{{artistOption.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br/>
+  <mat-form-field>
+    <wa-mat-quill matInput formControlName="lyrics" theme="snow"></wa-mat-quill>
+    <mat-hint align="end">The lyrics of the song</mat-hint>
+    <mat-error *ngIf="songFormGroup.controls.lyrics.hasError('required')">Lyrics is required</mat-error>
+  </mat-form-field>
+  <br/>
+  <mat-card-actions align="center">
+    <button mat-raised-button color="primary" [disabled]="!songFormGroup.valid" (click)="createSong()">
+      <span *ngIf="!songFormGroup.controls.id.value">Create</span>
+      <span *ngIf="songFormGroup.controls.id.value">Update</span>
+    </button>
+  </mat-card-actions>
+</form>
